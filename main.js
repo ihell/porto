@@ -23,7 +23,7 @@ const firebaseConfig = {
   measurementId: "G-VBHD7G08PJ"
 };
 
-// Inisialisasi Firebase
+// ambil data untuk absensi
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -49,6 +49,68 @@ export async function ambilDaftarAbsensi() {
 
 
 
+  return hasil;
+}
+
+// ambil data untuk pembeli
+export async function ambilDaftarPembeli() {
+  const refDokumen = collection(db, "pembeli");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+
+  let hasil = [];
+  cuplikanKueri.forEach((dok) => {
+    hasil.push({
+      id: dok.id,
+      nama: dok.data().nama,
+      alamat: dok.data().alamat,
+      noTlpn: dok.data().noTlpn,
+    });
+  });
+
+
+
+  return hasil;
+}
+
+// ambil data untuk penjual
+export async function ambilDaftarPenjual() {
+  const refDokumen = collection(db, "penjual");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+
+  let hasil = [];
+  cuplikanKueri.forEach((dok) => {
+    hasil.push({
+      id: dok.id,
+      nama: dok.data().nama,
+      alamat: dok.data().alamat,
+      gmail: dok.data().gmail,
+      noTlpn: dok.data().noTlpn,
+    });
+  });
+
+
+
+  return hasil;
+}
+
+// ambil data untuk produk
+export async function ambilDaftarProduk() {
+  const refDokumen = collection(db, "produk");
+  const kueri = query(refDokumen, orderBy("nama"));
+  const cuplikanKueri = await getDocs(kueri);
+
+  let hasil = [];
+  cuplikanKueri.forEach((dok) => {
+    hasil.push({
+      id: dok.id,
+      nama: dok.data().nama,
+      harga: dok.data().harga,
+      stok: dok.data().stok,
+    });
+  });
+  
   return hasil;
 }
 
