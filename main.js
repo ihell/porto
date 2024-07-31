@@ -157,3 +157,77 @@ export async function ambilAbsensi(docId) {
 
   return await docSnap.data();
 }
+
+// fungsi untuk pembeli
+
+// fungsi untuk tambah data pembeli
+export async function tambahPembeli(nama, alamat, noTlpn) {
+  try {
+    const dokRef = await addDoc(collection(db, 'pembeli'), {
+      nama: nama,
+      alamat: alamat,
+      noTlpn: noTlpn
+    });
+    console.log('berhasil menembah produk ' + dokRef.id);
+  } catch (e) {
+    console.log('gagal menambah produk ' + e);
+  }
+}
+
+// fungsi untuk hapus pembeli
+export async function hapusPembeli(docId) {
+  await deleteDoc(doc(db, "pembeli", docId));
+}
+
+// fungsi untuk ubah data
+export async function ubahPembeli(docId, nama, alamat, noTlpn) {
+  await updateDoc(doc(db, "pembeli", docId), {
+    nama: nama,
+    alamat: alamat,
+    noTlpn: noTlpn
+  });
+}
+
+export async function ambilPembeli(docId) {
+  const docRef = await doc(db, "pembeli", docId);
+  const docSnap = await getDoc(docRef);
+
+  return await docSnap.data();
+}
+
+// fungsi penjual
+
+//fungsi untuk menambahkan data penjual
+export async function tambahPenjual(nama, alamat, gmail, noTlpn) {
+  try {
+    const dokRef = await addDoc(collection(db, 'penjual'), {
+      nama: nama,
+      alamat: alamat,
+      gmail: gmail,
+      noTlpn: noTlpn
+    });
+    console.log('berhasil menembah produk ' + dokRef.id);
+  } catch (e) {
+    console.log('gagal menambah produk ' + e);
+  }
+}
+//fungsi untuk hapus data penjual
+export async function hapusPenjual(docId) {
+  await deleteDoc(doc(db, "penjual", docId));
+}
+//fungsi untuk ubah data penjual
+export async function ubahPenjual(docId, nama, alamat, gmail, noTlpn) {
+  await updateDoc(doc(db, "penjual", docId), {
+    nama: nama,
+    alamat: alamat,
+    gmail: gmail,
+    noTlpn: noTlpn
+  });
+}
+//fungsi untuk ambil data dan untuk diubah
+export async function ambilPenjual(docId) {
+  const docRef = await doc(db, "penjual", docId);
+  const docSnap = await getDoc(docRef);
+
+  return await docSnap.data();
+}
