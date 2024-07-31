@@ -231,3 +231,24 @@ export async function ambilPenjual(docId) {
 
   return await docSnap.data();
 }
+
+// fungsi produk
+
+// fungsi tambah produk
+export async function tambahProduk(nama, harga, stok) {
+  try {
+    const dokRef = await addDoc(collection(db, 'produk'), {
+      nama: nama,
+      harga: harga,
+      stok: stok
+    });
+    console.log('berhasil menembah produk ' + dokRef.id);
+  } catch (e) {
+    console.log('gagal menambah produk ' + e);
+  }
+}
+
+// fungsi hapus produk
+export async function hapusProduk(docId) {
+  await deleteDoc(doc(db, "produk", docId));
+}
