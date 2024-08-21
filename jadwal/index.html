@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link href="main.css" rel="stylesheet">
+
+</head>
+
+<body>
+  
+    <body class="d-flex flex-column h-100">
+        <nav class="navbar navbar-expand-lg navbar-white bg-white">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Data Produk</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavWhiteDropdown" aria-controls="navbarNavWhiteDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavWhiteDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                  <button class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Menu
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-white">
+                    <li><a class="dropdown-item" href="tambah.html">Tambah Data Mapel</a></li>
+                    <li><a class="dropdown-item" href="tambah-guru.html">Tambah Data Guru</a></li>
+                    <li><a class="dropdown-item" href="../pembeli/index.html">Data Produk</a></li>
+                    <li><a class="dropdown-item" href="../pembeli/index.html">Data Pembeli</a></li>
+                    <li><a class="dropdown-item" href="../penjual/index.html">Data Penjual</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      
+
+
+    <table class="height: 100% min-height: 100vh" class="table" id="daftar-mapel">
+        <thead>
+            <tr>
+                <th scope="col">Hari</th>
+                <th scope="col">Waktu</th>
+                <th scope="col">X</th>
+                <th scope="col">XI</th>
+                <th scope="col">XII</th>
+                <th scope="col">Tombol</th>
+            </tr>
+        </thead>
+        <tbody id="1">
+        </tbody>
+        <table class="height: 100% min-height: 100vh" class="table" id="daftar-guru">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="2">Nama Guru Dan Mapel</th>
+                    <th scope="col">Tombol</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </table>
+    
+    <script type="module">
+        import { ambilDaftarGuru, ambilDaftarJadwal, hapusJadwal, hapusGuru, capitalizeFirstLetter } from './functions.js';
+
+        $(document).ready(async function () {
+            let elemenDaftar = $("#daftar-guru > tbody");
+            let daftarGuru = await ambilDaftarGuru();
+            let nomor = 1;
+
+            daftarGuru.forEach((data) => {
+                elemenDaftar.append(
+                    '<tr>' +
+                    '<td>' + data.nama + '<td>' + data.pelajaran + '</td>' +
+                    '<td class="stack-up">' +
+                    ' <a href="#" class="btn btn-warning link-guru"  data="' +
+                    data.id +
+                    '">ubah</a> ' +
+                    ' <button class="btn btn-danger tombol-hapus" data="' +
+                    data.id +
+                    '">Hapus</button>' + '</td>' +
+                    '</tr>'
+                );
+                nomor = nomor + 1;
+            });
+            $('.tombol-hapus').click(async function () {
+                await hapusGuru($(this).attr('data'));
+                location.reload();
+            });
+
+            $('.link-guru').click(async function () {
+                window.location.replace('guru.html?docId=' + $(this).attr('data'));
+
+                $('#loader').hide();;
+            });
+        });
+
+            $(document).ready(async function () {
+                let elemenDaftar = $("#daftar-mapel > tbody#1");
+                let daftarJadwal = await ambilDaftarJadwal();
+                // let hari = "Senin";
+
+                daftarJadwal.forEach((data) => {
+                    elemenDaftar.append(
+                        '<tr>' +
+                        '<th>' + capitalizeFirstLetter(data.hari) + '</th>' +
+                        '<td>' + data.jam1 + '<br>' + data.jam2 + '<br>' + data.jam3 + '</td>' +
+                        '<td>' + data.x1 + '<br>' + data.x2 + '<br>' + data.x3 + '</td>' +
+                        '<td>' + data.xi1 + '<br>' + data.xi2 + '<br>' + data.xi3 + '</td>' +
+                        '<td>' + data.xii1 + '<br>' + data.xii2 + '<br>' + data.xii3 + '</td>' +
+                        '<td class="stack-up">' +
+                        ' <a href="#" class="btn btn-warning link-ubah"  data="' +
+                        data.id +
+                        '">ubah</a> ' +
+                        ' <button class="btn btn-danger tombol-hapus" data="' +
+                        data.id +
+                        '">Hapus</button>' + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+                $('.tombol-hapus').click(async function () {
+                    await hapusJadwal($(this).attr('data'));
+                    location.reload();
+                })
+
+                $('.link-ubah').click(async function () {
+                    window.location.replace('ubah.html?docId=' + $(this).attr('data'));
+                })
+
+                $('#loader').hide();
+
+            });
+    </script>
+
+
+</body>
+
+</html>
